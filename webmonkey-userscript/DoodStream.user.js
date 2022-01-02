@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DoodStream
 // @description  Watch videos in external player.
-// @version      1.0.0
+// @version      1.0.1
 // @match        *://dood.watch/*
 // @match        *://*.dood.watch/*
 // @icon         https://doodstream.com/favicon.ico
@@ -20,7 +20,8 @@
 
 var user_options = {
   "common": {
-    "redirect_embedded_iframes":    true
+    "redirect_embedded_iframes":    true,
+    "force_http_video_url":         true
   },
   "webmonkey": {
     "post_intent_redirect_to_url":  "about:blank"
@@ -31,6 +32,26 @@ var user_options = {
     "force_https":                  false
   }
 }
+
+/*
+ * *************************************
+ * notes:
+ *   - "force_http_video_url"
+ *     * true (default)
+ *       - causes the URL for the MP4 video file
+ *         to be modified from HTTPS: to HTTP:
+ *       - BAD for Chromecast
+ *       - makes no difference for ExoAirPlayer on modern Android
+ *       - NECESSARY for ExoAirPlayer on old versions of Android (ex: 4.4 KitKat),
+ *         if the TLS handshake fails
+ *       - the server responds to HTTP: request
+ *         with a 302 redirect to HTTPS: URL,
+ *         and (for some mysterious reason)
+ *         ExoAirPlayer plays the MP4 video file
+ *     * false
+ *       - NECESSARY for Chromecast
+ * *************************************
+ */
 
 // ----------------------------------------------------------------------------- helpers
 
@@ -241,6 +262,9 @@ var process_video_inner = function() {
         mp4_url  = text + 'XXXXXXXXXX' + token + Date.now()
         mp4_url  = resolve_url(mp4_url)
         mp4_url += '#video.mp4'
+
+        if (user_options.common.force_http_video_url && (mp4_url.substring(0,6).toLowerCase() === 'https:'))
+          mp4_url = 'http:' + mp4_url.substring(6, mp4_url.length)
 
         process_mp4_url(mp4_url)
       }

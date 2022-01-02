@@ -45,7 +45,33 @@ console:
   document.querySelector('iframe').src = mp4_url
 result:
   the mp4 video plays inside the iframe
-note:
-  Referer is required
+
+--------------------------------------------------------------------------------
+
+observations:
+  * mp4_url
+    - uses HTTPS: protocol
+    - does not require a "Referer" request header
+      * plays directly on Chromecast
+
+real-world problem:
+  * on an older Android device (tested w/ 4.4 KitKat)..
+    - the HTTPS: URL results in a failed TLS handshake
+      * which doesn't make any sense to me, because
+        - ExoAirPlayer is configured to trust all SSL/TLS certificates.. regardless of CA
+        - ExoAirPlayer is configured to enable TLS 1.2 on Android 4.x devices,
+          and the host supports TLS 1.2
+    - interestingly..
+      * if mp4_url is modified to use HTTP: protocol
+        - the host performs a 302 redirect, back to an HTTPS: URL
+        - ExoAirPlayer successfully plays the video
+
+real-world complication:
+  * it would be tempting to always modify mp4_url to use HTTP: protocol
+    - however, Chromecast isn't able to play the video when this redirect is used
+    - interestingly..
+      * `curl -L` can only follow the redirect
+        when both "Referer" and "Origin" request headers are included
+      * which explains why ExoAirPlayer succeeds where Chromecast fails
 
 --------------------------------------------------------------------------------
