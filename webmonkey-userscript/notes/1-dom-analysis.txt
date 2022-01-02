@@ -1,0 +1,51 @@
+--------------------------------------------------------------------------------
+
+https://v2.apimdb.net/e/tv/tt0115355/8/1/
+
+--------------------------------------------------------------------------------
+// view-source:https://dood.watch/d/f9nizwztt5h1
+
+<iframe src="/e/f9nizwztt5h1" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
+
+--------------------------------------------------------------------------------
+// view-source:https://dood.watch/e/f9nizwztt5h1
+
+<script>
+  $.get(
+    '/pass_md5/34659194-71-38-1641048894-d38565149c4ed278eb78092ae48ca975/qdz8iad85xyfjhhpbkxdnpca',
+    function(data){
+      dpload(data);
+      dsplayer.src({type: "video/mp4",src: data + makePlay()});
+    }
+  )
+
+  function makePlay(){
+    for(var a="",t="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",n=t.length,o=0;10>o;o++)
+      a+=t.charAt(Math.floor(Math.random()*n));
+
+    return a+"?token=qdz8iad85xyfjhhpbkxdnpca&expiry="+Date.now();
+  };
+</script>
+
+----------------------------------------
+
+on page:
+  https://dood.watch/d/f9nizwztt5h1
+
+console:
+  fetch('/pass_md5/34659194-71-38-1641048894-d38565149c4ed278eb78092ae48ca975/qdz8iad85xyfjhhpbkxdnpca').then(r => r.text()).then(console.log)
+result:
+  'https://rus174q.dood.video/u5kj2b5vddglsdgge7owiiqoccub3epmpxghbfqwm4hj7csohfvnuysrvdwq/dl2nbxqop7~'
+
+console:
+  var mp4_url = 'https://rus174q.dood.video/u5kj2b5vddglsdgge7owiiqoccub3epmpxghbfqwm4hj7csohfvnuysrvdwq/dl2nbxqop7~'
+    + 'XXXXXXXXXX'
+    + '?token=qdz8iad85xyfjhhpbkxdnpca&expiry=' + Date.now()
+
+  document.querySelector('iframe').src = mp4_url
+result:
+  the mp4 video plays inside the iframe
+note:
+  Referer is required
+
+--------------------------------------------------------------------------------
