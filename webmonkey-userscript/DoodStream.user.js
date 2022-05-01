@@ -1,9 +1,8 @@
 // ==UserScript==
 // @name         DoodStream
 // @description  Watch videos in external player.
-// @version      1.0.1
-// @match        *://dood.watch/*
-// @match        *://*.dood.watch/*
+// @version      1.0.2
+// @include      /^https?:\/\/(?:[^\.\/]*\.)*(?:dood\.(?:watch|pm))\/.*$/
 // @icon         https://doodstream.com/favicon.ico
 // @run-at       document-end
 // @grant        unsafeWindow
